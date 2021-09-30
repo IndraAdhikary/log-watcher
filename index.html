@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOG WATCHER</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body>
+    <h1>WATCH LOGS</h1>
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+        var socket = io.connect('http://localhost:5000')
+
+        socket.on('connect', function() {
+            
+            socket.send('User connected');
+            socket.emit('connected', {data: 'new_connection'});
+        });
+
+        socket.on('logged', function(log){
+        console.log(log["data"])
+        $("#logs").append('<li>'+log["data"]+'</li>');
+        // socket.emit('connected', {data: 'new_connection'});
+    });
+
+    });
+
+    </script>
+    <ul id="logs"></ul>
+</body>
+</html>
